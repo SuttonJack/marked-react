@@ -26,44 +26,42 @@ const validateComponentProps = (props: MarkdownProps) => {
 };
 
 const Markdown = (props: MarkdownProps) => {
+  const {
+    isInline = false,
+    breaks = false,
+    gfm = true,
+    baseURL = undefined,
+    openLinksInNewTab = true,
+    langPrefix = 'language-',
+    renderer = undefined,
+  } = props;
+
   validateComponentProps(props);
 
   // lexer options
   const lexerOptions = {
-    breaks: props.breaks,
-    gfm: props.gfm,
+    breaks,
+    gfm,
   };
 
   // convert input markdown into tokens
   const markdownString = props.value ?? props.children ?? '';
-  const tokens = props.isInline
-    ? Lexer.lexInline(markdownString, lexerOptions)
-    : Lexer.lex(markdownString, lexerOptions);
+  const tokens = isInline ? Lexer.lexInline(markdownString, lexerOptions) : Lexer.lex(markdownString, lexerOptions);
 
   // parser options
   const parserOptions = {
     renderer: new ReactRenderer({
-      renderer: props.renderer,
-      baseURL: props.baseURL,
-      openLinksInNewTab: props.openLinksInNewTab,
-      langPrefix: props.langPrefix,
+      renderer,
+      baseURL,
+      openLinksInNewTab,
+      langPrefix,
     }),
   };
 
   const parser = new ReactParser(parserOptions);
-  const children = props.isInline ? parser.parseInline(tokens) : parser.parse(tokens);
+  const children = isInline ? parser.parseInline(tokens) : parser.parse(tokens);
 
   return createElement(Fragment, null, children);
-};
-
-Markdown.defaultProps = {
-  isInline: false,
-  breaks: false,
-  gfm: true,
-  baseURL: undefined,
-  openLinksInNewTab: true,
-  langPrefix: 'language-',
-  renderer: undefined,
 };
 
 export default Markdown;

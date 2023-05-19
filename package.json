@@ -1,9 +1,8 @@
 {
-  "name": "marked-react",
+  "name": "mh-marked-react",
   "description": "Render Markdown as React components",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "type": "module",
-  "author": "sibiraj-s",
   "license": "MIT",
   "repository": "https://github.com/sibiraj-s/marked-react.git",
   "bugs": "https://github.com/sibiraj-s/marked-react/issues",
